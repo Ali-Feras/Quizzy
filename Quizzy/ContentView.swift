@@ -14,21 +14,33 @@ struct ContentView: View {
     var body: some View {
         NavigationView {
             ZStack {
-                Image("?")
+                Image("????")
                     .resizable()
                     .aspectRatio(contentMode: .fill)
                     .frame(minWidth: 0, maxWidth: .infinity)
                     .edgesIgnoringSafeArea(.all)
             VStack {
-                Text("Quizzy")
-                    .font(.system(size: 70))
-                    .font(.title)
-                    .fontWeight(.bold)
-                    .padding()
                 
-                NavigationLink("Start Quiz", destination: Personal())
+                StrokeText(text: "Quizzy", width: 2, color: .black)
+                        .foregroundColor(.white)
+                        .font(.system(size: 70, weight: .bold))
+                        .padding()
+                
+                NavigationLink(destination: Personal().navigationBarBackButtonHidden(true)) {
+                    Text("Start Quiz")
                 }
+                    .font(.system(size: 25))
+                    .foregroundColor(.red)
+                    .padding(6)
+                    .overlay (
+                      RoundedRectangle(cornerRadius: 5)
+                         .stroke(Color.white, lineWidth:1)
+                   )
+                }
+            
             }
+
+          
         }
     }
 }
@@ -62,5 +74,23 @@ struct Rainbow: ViewModifier {
                 }
             })
             .mask(content)
+    }
+}
+struct StrokeText: View {
+    let text: String
+    let width: CGFloat
+    let color: Color
+
+    var body: some View {
+        ZStack{
+            ZStack{
+                Text(text).offset(x:  width, y:  width)
+                Text(text).offset(x: -width, y: -width)
+                Text(text).offset(x: -width, y:  width)
+                Text(text).offset(x:  width, y: -width)
+            }
+            .foregroundColor(color)
+            Text(text)
+        }
     }
 }
